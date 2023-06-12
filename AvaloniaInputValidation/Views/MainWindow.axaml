@@ -1,0 +1,148 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaloniaInputValidation.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvaloniaInputValidation.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="AvaloniaInputValidation">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="StackPanel#RootPanel > TextBlock">
+            <Setter Property="Margin" Value="0,6" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style Selector="StackPanel#RootPanel > Border">
+            <Setter Property="BorderBrush" Value="LightGray" />
+            <Setter Property="BorderThickness" Value="0,0,0,2" />
+            <Setter Property="Padding" Value="0,0,0,12" />
+            <Style Selector="^ > StackPanel">
+                <Setter Property="Orientation" Value="Vertical" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Spacing" Value="6" />
+            </Style>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="Width" Value="200" />
+        </Style>
+    </Window.Styles>
+
+    <Window.Resources>
+        <DataTemplate x:Key="CustomErrorsDataTemplate">
+            <Canvas Width="14" Height="14" Margin="4 0 1 0"
+                    Background="Transparent">
+                <Canvas.Styles>
+                    <Style Selector="ToolTip">
+                        <Setter Property="Background" Value="LightPink" />
+                        <Setter Property="BorderBrush" Value="Red" />
+                    </Style>
+                </Canvas.Styles>
+                <ToolTip.Tip>
+                    <ItemsControl x:DataType="DataValidationErrors"
+                                  ItemsSource="{Binding}" />
+                </ToolTip.Tip>
+                <Path Data="M14,7 A7,7 0 0,0 0,7 M0,7 A7,7 0 1,0 14,7 M7,3l0,5 M7,9l0,2"
+                      Stroke="Red"
+                      StrokeThickness="2" />
+            </Canvas>
+        </DataTemplate>
+    </Window.Resources>
+
+    <ScrollViewer Padding="4">
+        <StackPanel Name="RootPanel" Orientation="Vertical">
+
+            <TextBlock Text="Casting Errors" />
+            <Border>
+                <StackPanel>
+                    <TextBox Text="{Binding CastingName}" Watermark="Name" />
+                    <TextBox Text="{Binding CastingAge}" Watermark="Age" />
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="Setter Exceptions" />
+            <Border>
+                <StackPanel>
+                    <TextBox Text="{Binding SetterName}" Watermark="Name" />
+                    <TextBox Text="{Binding SetterAge}" Watermark="Age" />
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="Throws DataValidationException" />
+            <Border>
+                <StackPanel>
+                    <TextBox Text="{Binding DataValidationExceptionName}" Watermark="Name" />
+                    <TextBox Text="{Binding DataValidationExceptionAge}" Watermark="Age" />
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="Use DataAnnotations" />
+            <Border>
+                <StackPanel>
+                    <TextBox Text="{Binding AnnotationName}" Watermark="Name" />
+                    <TextBox Text="{Binding AnnotationAge}" Watermark="Age" />
+                    <TextBox Text="{Binding AnnotationPassword}" Watermark="Password" />
+                    <TextBox Text="{Binding AnnotationPasswordAgain}" Watermark="Password Again" />
+                    <TextBox Text="{Binding AnnotationEmail}" Watermark="Email Address" />
+                    <TextBox Text="{Binding AnnotationPhone}" Watermark="Phone" />
+                    <TextBox Text="{Binding AnnotationFilename}" Watermark="Filename" />
+                    <TextBox Text="{Binding AnnotationIdentityNumber}" Watermark="ID Number" />
+                    <TextBox Text="{Binding AnnotationGuid}" Watermark="Guid" />
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="Use INotifyDataErrorInfo" />
+            <Border>
+                <StackPanel>
+                    <TextBox Text="{Binding NotifyUsername}" Watermark="Username" />
+                    <TextBox Text="{Binding NotifyPassword}" Watermark="Password" />
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="Custom DataValidationErrors ControlTheme" />
+            <Border>
+                <StackPanel>
+                    <TextBox Text="{Binding CustomErrorControlThemeUsername}">
+                        <TextBox.Styles>
+                            <Style Selector="DataValidationErrors">
+                                <Setter Property="Template">
+                                    <ControlTemplate>
+                                        <DockPanel LastChildFill="True">
+                                            <ContentControl DockPanel.Dock="Right"
+                                                            ContentTemplate="{TemplateBinding ErrorTemplate}"
+                                                            DataContext="{TemplateBinding Owner}"
+                                                            Content="{Binding (DataValidationErrors.Errors)}"
+                                                            IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
+                                            <ContentPresenter Name="PART_ContentPresenter"
+                                                              Background="{TemplateBinding Background}"
+                                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                                              CornerRadius="{TemplateBinding CornerRadius}"
+                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                              Content="{TemplateBinding Content}"
+                                                              Padding="{TemplateBinding Padding}" />
+                                        </DockPanel>
+                                    </ControlTemplate>
+                                </Setter>
+                                <Setter Property="ErrorTemplate">
+                                    <StaticResource ResourceKey="CustomErrorsDataTemplate" />
+                                </Setter>
+                            </Style>
+                        </TextBox.Styles>
+                    </TextBox>
+                </StackPanel>
+            </Border>
+
+            <Border Height="500" />
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

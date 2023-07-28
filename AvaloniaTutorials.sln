@@ -2,6 +2,19 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaInputValidation", "AvaloniaInputValidation\AvaloniaInputValidation.csproj", "{EA58514D-5487-4EDF-90D4-E7A98E7EE96E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaReactive", "AvaloniaReactive\AvaloniaReactive.csproj", "{F9702A4E-EE97-4359-A0DB-1DA23EA3FFE1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Validations", "Validations", "{D8FC5630-C775-49A1-989A-6851DF324BA0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reactives", "Reactives", "{0B95D452-704E-480A-9AED-78CE9C2209C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveTests", "ReactiveTests\ReactiveTests.csproj", "{70559FE1-6288-4C82-90EF-C848B921C7F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{81A556FD-EF42-4C1B-9209-E32B9AEA022D}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +25,18 @@ Global
 		{EA58514D-5487-4EDF-90D4-E7A98E7EE96E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA58514D-5487-4EDF-90D4-E7A98E7EE96E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA58514D-5487-4EDF-90D4-E7A98E7EE96E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9702A4E-EE97-4359-A0DB-1DA23EA3FFE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9702A4E-EE97-4359-A0DB-1DA23EA3FFE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9702A4E-EE97-4359-A0DB-1DA23EA3FFE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9702A4E-EE97-4359-A0DB-1DA23EA3FFE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70559FE1-6288-4C82-90EF-C848B921C7F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70559FE1-6288-4C82-90EF-C848B921C7F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70559FE1-6288-4C82-90EF-C848B921C7F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70559FE1-6288-4C82-90EF-C848B921C7F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EA58514D-5487-4EDF-90D4-E7A98E7EE96E} = {D8FC5630-C775-49A1-989A-6851DF324BA0}
+		{F9702A4E-EE97-4359-A0DB-1DA23EA3FFE1} = {0B95D452-704E-480A-9AED-78CE9C2209C1}
+		{70559FE1-6288-4C82-90EF-C848B921C7F1} = {0B95D452-704E-480A-9AED-78CE9C2209C1}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaloniaReactive.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvaloniaReactive.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="AvaloniaReactive">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <Window.Styles>
+        <Style Selector="StackPanel#RootPanel > TextBlock">
+            <Setter Property="Margin" Value="0,6" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style Selector="StackPanel#RootPanel > Border">
+            <Setter Property="BorderBrush" Value="LightGray" />
+            <Setter Property="BorderThickness" Value="0,0,0,2" />
+            <Setter Property="Padding" Value="0,0,0,12" />
+            <Style Selector="^ > StackPanel">
+                <Setter Property="Orientation" Value="Vertical" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Spacing" Value="6" />
+            </Style>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="Width" Value="200" />
+        </Style>
+    </Window.Styles>
+
+    <ScrollViewer Padding="4">
+        <StackPanel Name="RootPanel" Orientation="Vertical">
+            <TextBlock Text="IObservable" />
+            <Border>
+                <StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+
+</Window>

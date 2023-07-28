@@ -3,6 +3,7 @@
         xmlns:vm="using:AvaloniaInputValidation.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:AvaloniaInputValidation.Converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AvaloniaInputValidation.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -59,6 +60,11 @@
 
     <ScrollViewer Padding="4">
         <StackPanel Name="RootPanel" Orientation="Vertical">
+
+            <RadioButton IsChecked="{Binding SwitchType, Converter={x:Static converters:IntIsCheckedConverter.Instance}, ConverterParameter=1, Mode=TwoWay}"/>
+            <RadioButton IsChecked="{Binding SwitchType, Converter={x:Static converters:IntIsCheckedConverter.Instance}, ConverterParameter=2, Mode=TwoWay}"/>
+            <RadioButton IsChecked="{Binding SwitchType, Converter={x:Static converters:IntIsCheckedConverter.Instance}, ConverterParameter=3, Mode=TwoWay}"/>
+            <Button Content="Change" Command="{Binding ChangeCommand}" />
 
             <TextBlock Text="Casting Errors" />
             <Border>

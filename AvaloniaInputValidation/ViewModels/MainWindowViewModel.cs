@@ -209,4 +209,8 @@ public class MainWindowViewModel : ViewModelBase, INotifyDataErrorInfo
     public string? CustomErrorControlThemeUsername { get; set; }
 
     #endregion
+
+    [Reactive]
+    public int SwitchType { get; set; }
+    public ICommand ChangeCommand => ReactiveCommand.Create(() => SwitchType = 1);
 }

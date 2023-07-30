@@ -12,7 +12,7 @@
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
     <Window.Styles>
         <Style Selector="StackPanel#RootPanel > TextBlock">
@@ -28,6 +28,9 @@
                 <Setter Property="HorizontalAlignment" Value="Left" />
                 <Setter Property="VerticalAlignment" Value="Top" />
                 <Setter Property="Spacing" Value="6" />
+                <Style Selector="^ > :is(Layoutable)">
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                </Style>
             </Style>
         </Style>
         <Style Selector="TextBox">
@@ -37,9 +40,92 @@
 
     <ScrollViewer Padding="4">
         <StackPanel Name="RootPanel" Orientation="Vertical">
-            <TextBlock Text="IObservable" />
+            <TextBlock Text="Binding to IObservable" />
             <Border>
                 <StackPanel>
+                    <TextBlock
+                        Text="{Binding SecondsFromStartup^, StringFormat={}Application started {0} seconds ago.}" />
+                </StackPanel>
+            </Border>
+            <TextBlock Text="Binding to ObservableAsPropertyHelper" />
+            <Border>
+                <StackPanel>
+                    <TextBlock Text="{Binding SecondsFromHelper, StringFormat={}Application started {0} seconds ago.}" />
+                </StackPanel>
+            </Border>
+            <TextBlock Text="IObservable Basic" />
+            <TextBox Text="{Binding SearchQuery}"
+                     HorizontalAlignment="Left"/>
+            <Border>
+                <ItemsControl ItemsSource="{Binding SearchResults^}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="Auto,*">
+                                <Image Margin="6" Width="64" Height="64"
+                                       Source="{Binding IconImage^}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" TextWrapping="WrapWithOverflow"
+                                           Margin="6" VerticalAlignment="Center">
+                                    <Run FontSize="14" FontWeight="SemiBold" Text="{Binding Metadata.Title}" />
+                                    <LineBreak />
+                                    <Run FontSize="12" Text="{Binding Metadata.Description}" />
+                                    <LineBreak />
+                                    <Button FontSize="10" Command="{Binding OpenPage}" Content="Show" />
+                                </TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+            <TextBlock Text="WhenAnyValue" />
+            <Border>
+                <StackPanel>
+                    <TextBox Text="{Binding InputText}" />
+                    <TextBlock Text="{Binding InputTextLength^, StringFormat={}Length input: {0}}" />
+                </StackPanel>
+            </Border>
+            <TextBlock Text="Command canExecute" />
+            <Border>
+                <StackPanel>
+                    <TextBox Text="{Binding Username}" Watermark="Username" />
+                    <TextBox Text="{Binding Password}" Watermark="Password" />
+                    <CheckBox IsChecked="{Binding Agree}" Content="Agree" />
+                    <Button Content="Register" Command="{Binding RegisterCommand}" Classes.accent="True" />
+                </StackPanel>
+            </Border>
+            <TextBlock Text="WhenAnyPropertyChanged" />
+            <Border>
+                <StackPanel>
+                    <TextBlock
+                        Text="{Binding ChangedPropertyTriggeredCount^, StringFormat={}WhenAnyPropertyChanged has triggered for {0} times}" />
+                </StackPanel>
+            </Border>
+            <TextBlock Text="WhenAnyObservable" />
+            <Border>
+                <StackPanel>
+                    <TextBlock Text="{Binding ObservableValuesSummary^}" />
+                </StackPanel>
+            </Border>
+            <TextBlock Text="ObservableForProperty" />
+            <Border>
+                <StackPanel>
+                    <TextBlock Text="{Binding ObservableForPropertyBefore^, StringFormat={}Before: {0}}" />
+                    <TextBlock Text="{Binding ObservableForPropertyAfter^, StringFormat={}After: {0}}" />
+                </StackPanel>
+            </Border>
+            <Border>
+                <StackPanel Orientation="Horizontal">
+                    <ItemsControl ItemsSource="{Binding Students}"
+                                  MinWidth="200" />
+                    <StackPanel Orientation="Vertical" Spacing="6">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Button Content="Append" Command="{Binding AppendStudentCommand}" />
+                            <Button Content="Remove" Command="{Binding RemoveStudentCommand}" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding StudentsCount^, StringFormat={}Totally\, {0} student(s).}" />
+                        <TextBlock
+                            Text="{Binding StudentsOlderThen20^, StringFormat={}{0} student(s) are older then 20.}" />
+                    </StackPanel>
                 </StackPanel>
             </Border>
         </StackPanel>

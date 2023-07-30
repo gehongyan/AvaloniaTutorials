@@ -133,6 +133,39 @@ public class ObservableTests
 
     #endregion
 
+    #region Aggregation
+
+    [Fact]
+    public void Observable_Aggregate()
+    {
+        IObservable<int> range = Observable.Range(1, 5);
+        int sum = 0;
+        using IDisposable subscription = range.Aggregate((x, y) => x + y)
+            .Subscribe(x =>
+            {
+                sum = x;
+                _testOutputHelper.WriteLine($"Number: {x}");
+            });
+        Assert.Equal(15, sum);
+    }
+
+    [Fact]
+    public async Task Observable_Scan()
+    {
+        IObservable<long> range = Observable.Interval(TimeSpan.FromSeconds(1));
+        long sum = 0;
+        using IDisposable subscription = range.Scan((x, y) => x + y)
+            .Subscribe(x =>
+            {
+                sum = x;
+                _testOutputHelper.WriteLine($"Number: {x}");
+            });
+        await Task.Delay(TimeSpan.FromSeconds(6.5));
+        Assert.Equal(15, sum);
+    }
+
+    #endregion
+
     #region Time-based Generation
 
     [Fact]
@@ -562,5 +595,4 @@ public class ObservableTests
     }
 
     #endregion
-
 }

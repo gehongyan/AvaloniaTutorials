@@ -1,1 +1,10 @@
+global using System.Collections.ObjectModel;
+global using System.Collections.Specialized;
+global using System.Globalization;
+global using System.Reactive;
+global using System.Reactive.Linq;
+global using System.Reactive.Subjects;
+global using Avalonia.Controls;
+global using Avalonia.Interactivity;
 global using Xunit;
+global using Xunit.Abstractions;

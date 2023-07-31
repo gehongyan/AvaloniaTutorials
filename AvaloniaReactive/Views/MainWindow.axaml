@@ -81,7 +81,10 @@
             <Border>
                 <StackPanel>
                     <TextBox Text="{Binding InputText}" />
-                    <TextBlock Text="{Binding InputTextLength^, StringFormat={}Length input: {0}}" />
+                    <TextBlock Text="{Binding InputTextLength^, StringFormat={}Length: {0}}" />
+                    <TextBlock Text="{Binding DigitCount^, StringFormat={}Digits: {0}}" />
+                    <TextBlock Text="{Binding IsDateTime^, StringFormat={}Is DateTime: {0}}" />
+                    <TextBlock Text="{Binding IsPhoneNumber^, StringFormat={}Is Phone Number: {0}}" />
                 </StackPanel>
             </Border>
             <TextBlock Text="Command canExecute" />
@@ -113,6 +116,7 @@
                     <TextBlock Text="{Binding ObservableForPropertyAfter^, StringFormat={}After: {0}}" />
                 </StackPanel>
             </Border>
+            <TextBlock Text="ObservableCollection" />
             <Border>
                 <StackPanel Orientation="Horizontal">
                     <ItemsControl ItemsSource="{Binding Students}"

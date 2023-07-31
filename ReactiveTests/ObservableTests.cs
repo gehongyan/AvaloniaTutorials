@@ -1,12 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Xunit.Abstractions;
+﻿
 
 namespace ReactiveTests;
 

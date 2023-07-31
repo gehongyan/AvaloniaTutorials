@@ -116,6 +116,19 @@ public class MainWindowViewModel : ViewModelBase
         .Select(x => x?.Length ?? 0)
         .StartWith(InputText?.Length ?? 0);
 
+    public IObservable<int> DigitCount => this
+        .WhenAnyValue(x => x.InputText)
+        .Select(x => x?.Count(char.IsDigit) ?? 0)
+        .StartWith(InputText?.Length ?? 0);
+
+    public IObservable<bool> IsDateTime => this
+        .WhenAnyValue(x => x.InputText)
+        .Select(x => DateTime.TryParse(x, out _));
+
+    public IObservable<bool> IsPhoneNumber => this
+        .WhenAnyValue(x => x.InputText)
+        .Select(x => x?.Length == 11 && x.All(char.IsDigit));
+
     #endregion
 
     #region Command canExecute

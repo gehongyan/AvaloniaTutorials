@@ -46,6 +46,41 @@ public class ObservableTests
     }
 
     /// <summary>
+    ///     该示例演示了通过 IEnumerable&lt;T&gt;.ToObservable 创建 IObservable 的基本用法。
+    ///     如需将非泛型 IEnumerable 转换为 IObservable，请先通过 Cast&lt;T&gt;
+    ///     或 OfType&lt;T&gt; 方法将其转换为泛型 IEnumerable&lt;T&gt;。
+    ///     该示例中通过 ToObservable 方法推送了 1 到 5 的整数序列。
+    /// </summary>
+    /// <remarks>
+    ///     IEnumerable 与 IObservable 的区别：
+    ///     IEnumerable 是可枚举接口，拉数据模型，通过迭代器获取值，不可重用，不可取消，数据静态有限，同步阻塞线程。
+    ///     IObservable 是可观察接口，推数据模型，通过订阅接收值，可以重用，可以取消，数据动态可无限，异步非阻塞线程。
+    /// </remarks>
+    [Fact]
+    public void Observable_IEnumerable()
+    {
+        IEnumerable<int> enumerableRange = Enumerable.Range(1, 5);
+        IObservable<int> observableRange = enumerableRange.ToObservable();
+        List<int> values = new();
+        using IDisposable subscription = observableRange.Subscribe(x => values.Add(x));
+        Assert.True(Enumerable.Range(1, 5).SequenceEqual(values));
+    }
+
+    /// <summary>
+    ///     该示例演示了通过 Observable.Range 创建 IObservable 的基本用法。
+    ///     Observable.Range 方法用于创建一个 IObservable 对象，该对象会向观察者推送指定范围内的整数序列。
+    ///     该示例中通过 Range 方法推送了 1 到 5 的整数序列。
+    /// </summary>
+    [Fact]
+    public void Observable_Range()
+    {
+        IObservable<int> range = Observable.Range(1, 5);
+        List<int> values = new();
+        using IDisposable subscription = range.Subscribe(x => values.Add(x));
+        Assert.True(Enumerable.Range(1, 5).SequenceEqual(values));
+    }
+
+    /// <summary>
     ///     该示例演示了通过 Observable.FromEventPattern 创建 IObservable 的基本用法。
     ///     通过 FromEventPattern 非泛型方法创建 IObservable 对象，
     ///     方法的第一个参数是用于将 EventHandler&lt;TEventArgs&gt;
@@ -88,36 +123,6 @@ public class ObservableTests
         Assert.Equal(0, raisedCount);
         button.RaiseEvent(new RoutedEventArgs { RoutedEvent = Button.ClickEvent });
         Assert.Equal(1, raisedCount);
-    }
-
-    /// <summary>
-    ///     该示例演示了通过 IEnumerable&lt;T&gt;.ToObservable 创建 IObservable 的基本用法。
-    ///     如需将非泛型 IEnumerable 转换为 IObservable，请先通过 Cast&lt;T&gt;
-    ///     或 OfType&lt;T&gt; 方法将其转换为泛型 IEnumerable&lt;T&gt;。
-    ///     该示例中通过 ToObservable 方法推送了 1 到 5 的整数序列。
-    /// </summary>
-    [Fact]
-    public void Observable_IEnumerable()
-    {
-        IEnumerable<int> enumerableRange = Enumerable.Range(1, 5);
-        IObservable<int> observableRange = enumerableRange.ToObservable();
-        List<int> values = new();
-        using IDisposable subscription = observableRange.Subscribe(x => values.Add(x));
-        Assert.True(Enumerable.Range(1, 5).SequenceEqual(values));
-    }
-
-    /// <summary>
-    ///     该示例演示了通过 Observable.Range 创建 IObservable 的基本用法。
-    ///     Observable.Range 方法用于创建一个 IObservable 对象，该对象会向观察者推送指定范围内的整数序列。
-    ///     该示例中通过 Range 方法推送了 1 到 5 的整数序列。
-    /// </summary>
-    [Fact]
-    public void Observable_Range()
-    {
-        IObservable<int> range = Observable.Range(1, 5);
-        List<int> values = new();
-        using IDisposable subscription = range.Subscribe(x => values.Add(x));
-        Assert.True(Enumerable.Range(1, 5).SequenceEqual(values));
     }
 
     #endregion

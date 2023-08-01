@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 using AvaloniaReactive.Models;
 using DynamicData;
 using DynamicData.Binding;
@@ -297,6 +298,24 @@ public class MainWindowViewModel : ViewModelBase
         .Filter(x => x.Age > 20)
         .ToCollection()
         .Select(x => x.Count);
+
+    #endregion
+
+    #region Scheduler
+
+    /// <summary>
+    ///     在主线程上执行一个任务，在基于 XAML 的平台上类似 <c>Dispatcher.BeginInvoke</c>。
+    /// </summary>
+    public ICommand RxAppScheduleOnMainThreadCommand => ReactiveCommand.Create(() =>
+        Observable.Start(() => Thread.Sleep(TimeSpan.FromSeconds(5)),
+            RxApp.MainThreadScheduler));
+
+    /// <summary>
+    ///     在线程池上执行一个任务，类似 <c>Task.Run</c>。
+    /// </summary>
+    public ICommand RxAppScheduleOnTaskPoolCommand => ReactiveCommand.Create(() =>
+        Observable.Start(() => Thread.Sleep(TimeSpan.FromSeconds(5)),
+            RxApp.TaskpoolScheduler));
 
     #endregion
 }

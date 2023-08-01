@@ -132,6 +132,15 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
+            <TextBlock Text="Schedulers" />
+            <Border>
+                <StackPanel Orientation="Vertical">
+                    <Button Command="{Binding RxAppScheduleOnMainThreadCommand}"
+                            Content="On MainThread"/>
+                    <Button Command="{Binding RxAppScheduleOnTaskPoolCommand}"
+                            Content="On TaskPool"/>
+                </StackPanel>
+            </Border>
         </StackPanel>
     </ScrollViewer>
 

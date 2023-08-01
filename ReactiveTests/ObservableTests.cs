@@ -323,17 +323,25 @@ public class ObservableTests
     {
         IObservable<int> observable = Observable.Generate(0,
             x => x < 30,
-            x => x + 1,
+            x =>
+            {
+                _testOutputHelper.WriteLine($"iterate: Number: {x}, {DateTime.Now:HH:mm:ss.fffffff}");
+                return x + 1;
+            },
             x => x,
-            x => x % 10 is < 3 or > 8 ? TimeSpan.FromSeconds(1) : TimeSpan.FromMilliseconds(200));
+            x =>
+            {
+                _testOutputHelper.WriteLine($"time: Number: {x}, {DateTime.Now:HH:mm:ss.fffffff}");
+                return x % 10 is < 3 or > 8 ? TimeSpan.FromSeconds(1) : TimeSpan.FromMilliseconds(200);
+            });
         List<int> values = new();
         using IDisposable subscription = observable
-            .Delay(TimeSpan.FromMilliseconds(200))
+            // .Delay(TimeSpan.FromMilliseconds(200))
             .Throttle(TimeSpan.FromMilliseconds(500))
             .Subscribe(x =>
             {
                 values.Add(x);
-                _testOutputHelper.WriteLine($"Number: {string.Join(",", x)}");
+                _testOutputHelper.WriteLine($"Number: {string.Join(",", x)}, {DateTime.Now:HH:mm:ss.fffffff}");
             });
         await Task.Delay(TimeSpan.FromSeconds(15));
         Assert.NotEmpty(values);
@@ -417,7 +425,7 @@ public class ObservableTests
     [Fact]
     public async Task Observable_Sample()
     {
-        IObservable<long> observable = Observable.Interval(TimeSpan.FromMilliseconds(20));
+        IObservable<long> observable = Observable.Interval(TimeSpan.FromMilliseconds(1));
         List<long> values = new();
         using IDisposable subscription = observable
             .Sample(TimeSpan.FromSeconds(1))
@@ -636,7 +644,8 @@ public class ObservableTests
     [Fact]
     public async Task Observable_Zip()
     {
-        IObservable<string> first = Observable.Interval(TimeSpan.FromSeconds(1))
+        IObservable<string> first = Observable.Interval(TimeSpan.FromSeconds(0.2))
+            .Sample(TimeSpan.FromSeconds(1))
             .Select(x => $"#1: {x}");
         IObservable<string> second = Observable.Interval(TimeSpan.FromSeconds(1))
             .Select(x => $"#2: {x}")

@@ -1,0 +1,212 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaloniaBinding.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:AvaloniaBinding.Converters"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="800"
+        x:Class="AvaloniaBinding.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="AvaloniaBinding">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="StackPanel.ContainerPanel">
+            <Setter Property="Orientation" Value="Vertical" />
+        </Style>
+        <Style Selector="StackPanel.ContainerPanel > TextBlock">
+            <Setter Property="Margin" Value="0,6" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style Selector="StackPanel.ContainerPanel > Border">
+            <Setter Property="BorderBrush" Value="LightGray" />
+            <Setter Property="BorderThickness" Value="0,0,0,2" />
+            <Setter Property="Padding" Value="0,0,0,12" />
+            <Style Selector="^ > StackPanel">
+                <Setter Property="Orientation" Value="Vertical" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Spacing" Value="6" />
+                <Style Selector="^ > :is(Layoutable)">
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </Style>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="Width" Value="200" />
+        </Style>
+    </Window.Styles>
+
+    <ScrollViewer Padding="4">
+        <StackPanel Orientation="Vertical">
+            <StackPanel Classes="ContainerPanel"
+                        x:CompileBindings="False">
+                <TextBlock Text="Conventional Binding" />
+                <Border>
+                    <StackPanel>
+                        <TextBlock Text="{Binding ConventionalBindingText}" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <StackPanel Classes="ContainerPanel"
+                        x:CompileBindings="True"
+                        x:DataType="vm:MainWindowViewModel">
+                <TextBlock Text="Binding to Task or IObservable" />
+                <Border>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding BindingToTask^}" />
+                        <Button Content="Restart Task"
+                                Command="{Binding RestartTaskCommand}"/>
+                        <TextBlock Text="{Binding BindingToObservable^, StringFormat={}Application started {0} seconds ago.}" />
+                    </StackPanel>
+                </Border>
+                <TextBlock Text="Compiled Binding" />
+                <Border>
+                    <TextBlock Text="{Binding CompiledBindingText}" />
+                </Border>
+                <TextBlock Text="Binding to Controls" />
+                <Border>
+                    <StackPanel Orientation="Vertical">
+                        <ItemsControl ItemsSource="{Binding ParentBindingItemsSource}"
+                                      Grid.IsSharedSizeScope="True">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" SharedSizeGroup="ExternalDataContextGroup"/>
+                                            <ColumnDefinition Width="Auto" SharedSizeGroup="ItemPropertyGroup"/>
+                                            <ColumnDefinition Width="Auto" SharedSizeGroup="NamedControlBindingGroup"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.Styles>
+                                            <Style Selector="TextBlock">
+                                                <Setter Property="Margin" Value="2" />
+                                            </Style>
+                                        </Grid.Styles>
+                                        <TextBlock Grid.Column="0" Text="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).Prefix}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Value}" />
+                                        <TextBlock Grid.Column="2" Text="{Binding #BindingToNamedControlsTextBox.Text}" />
+                                        <TextBlock Grid.Column="3" Text="{Binding $self.Foreground}" Foreground="DimGray" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBox Name="BindingToNamedControlsTextBox"
+                                 Text="{Binding BindingToControlsText}" />
+                        <Panel Classes.Root="True">
+                            <Panel.Styles>
+                                <Style Selector=":is(Panel):not(.Root)">
+                                    <Setter Property="Margin" Value="50, 10, 30,10"></Setter>
+                                </Style>
+                                <Style Selector="TextBlock">
+                                    <Setter Property="Margin" Value="50, 3, 5, 3" />
+                                    <Setter Property="Padding" Value="3" />
+                                    <Setter Property="HorizontalAlignment" Value="Left" />
+                                    <Setter Property="VerticalAlignment" Value="Top" />
+                                </Style>
+                            </Panel.Styles>
+                            <StackPanel Background="Goldenrod" Classes.Root="True">
+                                <StackPanel Background="LightBlue">
+                                    <!-- Note that this is a Panel instead of StackPanel -->
+                                    <Panel Background="LightPink">
+                                        <StackPanel Background="LightCyan">
+                                            <TextBlock Background="Tomato" Foreground="White" Text="{Binding $self.Background, StringFormat={}$self.Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent.Background,StringFormat={}$parent.Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[0].Background,StringFormat={}$parent[0].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[1].Background,StringFormat={}$parent[1].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[2].Background,StringFormat={}$parent[2].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[3].Background,StringFormat={}$parent[3].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Panel].Background,StringFormat={}$parent[Panel].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Panel;0].Background,StringFormat={}$parent[Panel;0].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Panel;1].Background,StringFormat={}$parent[Panel;1].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Panel;2].Background,StringFormat={}$parent[Panel;2].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Panel;3].Background,StringFormat={}$parent[Panel;3].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[StackPanel].Background,StringFormat={}$parent[StackPanel].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[StackPanel;0].Background,StringFormat={}$parent[StackPanel;0].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[StackPanel;1].Background,StringFormat={}$parent[StackPanel;1].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[StackPanel;2].Background,StringFormat={}$parent[StackPanel;2].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[StackPanel;3].Background,StringFormat={}$parent[StackPanel;3].Background: {0}}" />
+                                        </StackPanel>
+                                    </Panel>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        RenderTransform="rotate(90deg)"
+                                        Margin="0, 10, 0, 0"
+                                        Spacing="20">
+                                <TextBlock Text="StackPanel: LightCyan" />
+                                <TextBlock Text="Panel: LightPink" />
+                                <TextBlock Text="StackPanel: LightBlue" />
+                                <TextBlock Text="StackPanel: Goldenrod" />
+                            </StackPanel>
+                        </Panel>
+                    </StackPanel>
+                </Border>
+                <TextBlock Text="Template Binding" />
+                <Border>
+                    <Label Content="{Binding TemplateBindingText}"
+                           Background="Gold"
+                           CornerRadius="12"
+                           Padding="8"
+                           HorizontalAlignment="Left">
+                        <Label.Styles>
+                            <Style Selector="Label">
+                                <Setter Property="Template">
+                                    <ControlTemplate>
+                                        <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                Padding="{TemplateBinding Padding}"
+                                                CornerRadius="{TemplateBinding CornerRadius}">
+                                            <ContentPresenter Name="PART_ContentPresenter"
+                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                              Content="{TemplateBinding Content}"
+                                                              RecognizesAccessKey="True"
+                                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter>
+                            </Style>
+                        </Label.Styles>
+                    </Label>
+                </Border>
+                <TextBlock Text="Assign Binding" />
+                <Border>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding #AssignBindingComboBox.SelectedValue,StringFormat=Selected value: {0}}" />
+                        <ComboBox Name="AssignBindingComboBox"
+                                  ItemsSource="{Binding AssignBindingItemsSource}"
+                                  SelectedValueBinding="{Binding Index}" />
+                        <Button Content="Clear selection" Command="{Binding #AssignBindingComboBox.Clear}" />
+                    </StackPanel>
+                </Border>
+                <TextBlock Text="StringFormat" />
+                <Border>
+                    <StackPanel Orientation="Vertical">
+                        <ListBox Name="UsefulPropertiesComboBox"
+                                 ItemsSource="{Binding AssignBindingItemsSource}"
+                                 SelectionMode="Toggle"/>
+                        <TextBlock Text="{Binding #UsefulPropertiesComboBox.SelectedIndex, StringFormat={}Item at order {0} is selected.}" />
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}[{0}] {1} is selected.">
+                                    <Binding Path="#UsefulPropertiesComboBox.((vm:IndexedItem)SelectedItem).Index" />
+                                    <Binding Path="#UsefulPropertiesComboBox.((vm:IndexedItem)SelectedItem).Text" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

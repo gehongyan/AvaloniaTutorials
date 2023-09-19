@@ -3,7 +3,7 @@
         xmlns:vm="using:AvaloniaBinding.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:converters="clr-namespace:AvaloniaBinding.Converters"
+        xmlns:controls="clr-namespace:AvaloniaBinding.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="800"
         x:Class="AvaloniaBinding.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -112,17 +112,24 @@
                                     <Setter Property="VerticalAlignment" Value="Top" />
                                 </Style>
                             </Panel.Styles>
-                            <StackPanel Background="Goldenrod" Classes.Root="True">
-                                <StackPanel Background="LightBlue">
-                                    <!-- Note that this is a Panel instead of StackPanel -->
-                                    <Panel Background="LightPink">
-                                        <StackPanel Background="LightCyan">
+                            <Border Background="Goldenrod" Classes.Root="True">
+                                <Panel Background="LightBlue">
+                                    <Grid Background="LightPink">
+                                        <StackPanel Background="LightCyan" Classes.InnerContainer="True">
                                             <TextBlock Background="Tomato" Foreground="White" Text="{Binding $self.Background, StringFormat={}$self.Background: {0}}" />
-                                            <TextBlock Text="{Binding $parent.Background,StringFormat={}$parent.Background: {0}}" />
-                                            <TextBlock Text="{Binding $parent[0].Background,StringFormat={}$parent[0].Background: {0}}" />
-                                            <TextBlock Text="{Binding $parent[1].Background,StringFormat={}$parent[1].Background: {0}}" />
-                                            <TextBlock Text="{Binding $parent[2].Background,StringFormat={}$parent[2].Background: {0}}" />
-                                            <TextBlock Text="{Binding $parent[3].Background,StringFormat={}$parent[3].Background: {0}}" />
+                                            <TextBlock Text="{ReflectionBinding $parent.Background,StringFormat={}ReflectionBinding $parent.Background: {0}}" />
+                                            <TextBlock Text="{ReflectionBinding $parent[0].Background,StringFormat={}ReflectionBinding $parent[0].Background: {0}}" />
+                                            <TextBlock Text="{ReflectionBinding $parent[1].Background,StringFormat={}ReflectionBinding $parent[1].Background: {0}}" />
+                                            <TextBlock Text="{ReflectionBinding $parent[2].Background,StringFormat={}ReflectionBinding $parent[2].Background: {0}}" />
+                                            <TextBlock Text="{ReflectionBinding $parent[3].Background,StringFormat={}ReflectionBinding $parent[3].Background: {0}}" />
+                                            <TextBlock Text="{ReflectionBinding $parent[4].Background,StringFormat={}ReflectionBinding $parent[4].Background: {0}}" />
+                                            <!-- <TextBlock Text="{Binding $parent[0].Background,StringFormat={}CompiledBinding $parent[0].Background: {0}, FallbackValue=Fallback, TargetNullValue=NullValue}" /> -->
+                                            <!-- <TextBlock Text="{Binding $parent[1].Background,StringFormat={}CompiledBinding $parent[1].Background: {0}, FallbackValue=Fallback, TargetNullValue=NullValue}" /> -->
+                                            <!-- <TextBlock Text="{Binding $parent[2].Background,StringFormat={}CompiledBinding $parent[2].Background: {0}, FallbackValue=Fallback, TargetNullValue=NullValue}" /> -->
+                                            <!-- <TextBlock Text="{Binding $parent[3].Background,StringFormat={}CompiledBinding $parent[3].Background: {0}, FallbackValue=Fallback, TargetNullValue=NullValue}" /> -->
+                                            <!-- <TextBlock Text="{Binding $parent[4].Background,StringFormat={}CompiledBinding $parent[4].Background: {0}, FallbackValue=Fallback, TargetNullValue=NullValue}" /> -->
+                                            <!-- <TextBlock Text="{Binding $parent[5].Background,StringFormat={}CompiledBinding $parent[5].Background: {0}, FallbackValue=Fallback, TargetNullValue=NullValue}" /> -->
+                                            <!-- <TextBlock Text="{Binding $parent[6].Background,StringFormat={}CompiledBinding $parent[6].Background: {0}, FallbackValue=Fallback, TargetNullValue=NullValue}" /> -->
                                             <TextBlock Text="{Binding $parent[Panel].Background,StringFormat={}$parent[Panel].Background: {0}}" />
                                             <TextBlock Text="{Binding $parent[Panel;0].Background,StringFormat={}$parent[Panel;0].Background: {0}}" />
                                             <TextBlock Text="{Binding $parent[Panel;1].Background,StringFormat={}$parent[Panel;1].Background: {0}}" />
@@ -133,19 +140,29 @@
                                             <TextBlock Text="{Binding $parent[StackPanel;1].Background,StringFormat={}$parent[StackPanel;1].Background: {0}}" />
                                             <TextBlock Text="{Binding $parent[StackPanel;2].Background,StringFormat={}$parent[StackPanel;2].Background: {0}}" />
                                             <TextBlock Text="{Binding $parent[StackPanel;3].Background,StringFormat={}$parent[StackPanel;3].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Grid].Background,StringFormat={}$parent[Grid].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Grid;0].Background,StringFormat={}$parent[Grid;0].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Grid;1].Background,StringFormat={}$parent[Grid;1].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Grid;2].Background,StringFormat={}$parent[Grid;2].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Grid;3].Background,StringFormat={}$parent[Grid;3].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Border].Background,StringFormat={}$parent[Border].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Border;0].Background,StringFormat={}$parent[Border;0].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Border;1].Background,StringFormat={}$parent[Border;1].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Border;2].Background,StringFormat={}$parent[Border;2].Background: {0}}" />
+                                            <TextBlock Text="{Binding $parent[Border;3].Background,StringFormat={}$parent[Border;3].Background: {0}}" />
                                         </StackPanel>
-                                    </Panel>
-                                </StackPanel>
-                            </StackPanel>
+                                    </Grid>
+                                </Panel>
+                            </Border>
                             <StackPanel HorizontalAlignment="Left"
                                         VerticalAlignment="Top"
                                         RenderTransform="rotate(90deg)"
                                         Margin="0, 10, 0, 0"
-                                        Spacing="20">
+                                        Spacing="25">
                                 <TextBlock Text="StackPanel: LightCyan" />
-                                <TextBlock Text="Panel: LightPink" />
-                                <TextBlock Text="StackPanel: LightBlue" />
-                                <TextBlock Text="StackPanel: Goldenrod" />
+                                <TextBlock Text="Grid: LightPink" />
+                                <TextBlock Text="Panel: LightBlue" />
+                                <TextBlock Text="Border: Goldenrod" />
                             </StackPanel>
                         </Panel>
                     </StackPanel>
@@ -193,7 +210,7 @@
                 <Border>
                     <StackPanel Orientation="Vertical">
                         <ListBox Name="UsefulPropertiesComboBox"
-                                 ItemsSource="{Binding AssignBindingItemsSource}"
+                                 ItemsSource="{Binding StringFormatItemsSource}"
                                  SelectionMode="Toggle"/>
                         <TextBlock Text="{Binding #UsefulPropertiesComboBox.SelectedIndex, StringFormat={}Item at order {0} is selected.}" />
                         <TextBlock>
@@ -206,7 +223,17 @@
                         </TextBlock>
                     </StackPanel>
                 </Border>
+                <TextBlock Text="Binding from Code" />
+                <Border>
+                    <StackPanel Orientation="Vertical">
+                        <controls:OneWayTextBox Name="InputTextBox" Text="{Binding $self.OneWayText}" />
+                        <controls:OneWayTextBox Name="OutputTextBox" Text="{Binding $self.OneWayText}" />
+                        <controls:OneWayTextBox Name="TwoWayInputTextBox" Text="{Binding $self.OneWayText}" />
+                        <controls:OneWayTextBox Name="TwoWayOutputTextBox" Text="{Binding $self.OneWayText}" />
+                    </StackPanel>
+                </Border>
             </StackPanel>
+            <Border Height="300" Width="300" />
         </StackPanel>
     </ScrollViewer>
 </Window>

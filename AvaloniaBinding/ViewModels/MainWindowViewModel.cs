@@ -125,6 +125,33 @@ public class MainWindowViewModel : ViewModelBase
     ///             </description>
     ///         </item>
     ///     </list>
+    ///     编译绑定时，如果编译器无法推断类型，则需要通过 <c>x:DataType="YourDataType"</c> 或
+    ///     <see cref="CompiledBindingExtension.DataType"/> 显式指定数据类型，这通常发生在以下几种情况下：
+    ///     <list type="bullet">
+    ///         <item>
+    ///             <description>
+    ///                 视图层文件根节点指定视图 <see cref="StyledElement.DataContext"/> 的类型。
+    ///             </description>
+    ///         </item>
+    ///         <item>
+    ///             <description>
+    ///                 在样式或资源中传入绑定表达式。
+    ///             </description>
+    ///         </item>
+    ///     </list>
+    ///     如果编译绑定表达式中的某个属性访问无法推断类型，则可以使用强制类型转换表达式。例如：
+    ///     <code lang="xml">
+    ///         Text="{Binding $parent[Window].DataContext.Prefix}"
+    ///     </code>
+    ///     <c>DataContext</c> 属性的类型为 <c>object</c>，编译器无法解析 <c>object</c> 类型上的字段或属性
+    ///     <c>Prefix</c>，因此需要进行强制类型转换，将 <c>DataContext</c> 强制转换为 <see cref="MainWindowViewModel"/> 类型。
+    ///     <code lang="xml">
+    ///         Text="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).Prefix}"
+    ///     </code>
+    ///     如需访问内部类，可以使用 <c>+</c> 连接符。例如，要访问 <see cref="MainWindowViewModel"/> 的
+    ///     <c>InnerClass</c> 类，请指定 <c>MainWindowViewModel+InnerClass</c>。
+    ///     如需在编译绑定上下文中禁用编译绑定，可以设置 <c>x:CompiledBinding="False"</c>，可以禁用该节点及其子节点的编译绑定。
+    ///     也可以使用 <see cref="ReflectionBindingExtension"/> 来显式指定绑定表达式为反射绑定，这将只对绑定表达式有效。
     /// </remarks>
     public string CompiledBindingText => "Text in CompiledBinding demo.";
 
@@ -140,6 +167,28 @@ public class MainWindowViewModel : ViewModelBase
     ///     并自定义 <see cref="ItemsControl.ItemTemplate"/> 的示例，示例中的成员模板内创建了
     ///     <see cref="Grid"/> 容器，包装了四个 <see cref="TextBlock"/>，分别绑定到了外部
     ///     祖先控件上的属性、当前数据成员的属性、命名控件的属性、自身控件的属性。
+    ///     <list type="bullet">
+    ///         <item>
+    ///             <description>
+    ///                 绑定到自身，可使用 <c>$self</c>。
+    ///             </description>
+    ///         </item>
+    ///         <item>
+    ///             <description>
+    ///                 绑定到外部祖先控件，可使用 <c>$parent</c>。如需指定类型，可使用 <c>$parent[Type]</c>。
+    ///                 例如，绑定到最近的祖先 <see cref="Window"/>，可使用 <c>$parent[Window]</c>。如需指定层级，
+    ///                 可使用 <c>$parent[level]</c>，0 基索引，例如，要绑定到第三级祖先控件，可使用 <c>$parent[2]</c>。
+    ///                 如需同时指定类型与层级，可使用 <c>$parent[Type;level]</c>，例如，要绑定到第二近的祖先
+    ///                 <see cref="ItemsControl"/>，可使用 <c>$parent[ItemsControl;1]</c>。需要注意，在启用编译绑定时，
+    ///                 仅指定层级不指定类型，可能会导致绑定失败。
+    ///             </description>
+    ///         </item>
+    ///         <item>
+    ///             <description>
+    ///                 绑定到命名控件，可使用 <c>#name</c>。
+    ///             </description>
+    ///         </item>
+    ///     </list>
     /// </remarks>
     public IEnumerable<KeyValuePair<int, string>> ParentBindingItemsSource => Enumerable
         .Range(1, 5)
@@ -220,6 +269,23 @@ public class MainWindowViewModel : ViewModelBase
 
     #endregion
 
+    #region StringFormat
+
+    /// <summary>
+    ///     获取用于展示字符串格式化的文本属性。
+    /// </summary>
+    /// <remarks>
+    ///     字符串格式化表达式中，可以使用 <c>{}</c> 作为占位符，表示绑定表达式中 0 基下标的某个绑定的值。
+    ///     在单一表达式中，<c>{0}</c> 即为表示该绑定值。在 <see cref="MultiBinding"/> 表达式中，
+    ///     <c>{0}</c> 表示第一个绑定值，<c>{1}</c> 表示第二个绑定值，以此类推。
+    ///     占位符的格式化字符串与 C# 内插字符串的格式化字符串相同，例如，<c>{0:HH:mm:ss}</c> 表示
+    ///     第一个绑定值的 <see cref="DateTime"/> 值以小时、分钟、秒格式化字符串。
+    ///     如果字符串格式化表达式以左花括号 <c>{</c> 开头，那么则需要在表达式开头使用空下标访问器
+    ///     <c>{}</c> 转义整个表达式，例如 <c>{}{0:HH:mm:ss}</c>。
+    /// </remarks>
+    public IEnumerable<IndexedItem> StringFormatItemsSource => AssignBindingItemsSource;
+
+    #endregion
 }
 
 /// <summary>

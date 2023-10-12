@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Sandbox.Models;
@@ -28,4 +30,18 @@ public class MainWindowViewModel : ViewModelBase
     ///     设置性别的命令
     /// </summary>
     public ICommand SetValueUnifiedCommand => ReactiveCommand.Create<Gender>(gender => UnifiedGender = gender);
+
+    public ObservableCollection<SyncScrollDataGridItem> SyncScrollDataGridItemsSource =>
+        new(Enumerable.Range(1, 100).Select(x =>
+            new SyncScrollDataGridItem()
+            {
+                Name = $"Name {x}",
+                Value = $"Value {x}",
+            }));
+}
+
+public class SyncScrollDataGridItem
+{
+    public string? Name { get; set; }
+    public string? Value { get; set; }
 }

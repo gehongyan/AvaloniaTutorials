@@ -6,6 +6,7 @@
         xmlns:me="clr-namespace:Sandbox.MarkupExtensions"
         xmlns:models="clr-namespace:Sandbox.Models"
         xmlns:valueConverters="clr-namespace:Sandbox.ValueConverters"
+        xmlns:behaviors="clr-namespace:Sandbox.Behaviors"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Sandbox.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -13,6 +14,30 @@
         Title="Sandbox">
 
     <StackPanel Orientation="Vertical" Spacing="5">
+        <DataGrid Name="SyncSourceDataGrid"
+                  ItemsSource="{Binding SyncScrollDataGridItemsSource}"
+                  Height="200"
+                  Width="200"
+                  FrozenColumnCount="1"
+                  HorizontalAlignment="Left">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid ItemsSource="{Binding SyncScrollDataGridItemsSource}"
+                  Height="200"
+                  Width="200"
+                  HorizontalAlignment="Left">
+            <Interaction.Behaviors>
+                <behaviors:DataGridSyncScrollBehavior SyncedDataGrid="SyncSourceDataGrid" />
+            </Interaction.Behaviors>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+            </DataGrid.Columns>
+        </DataGrid>
         <Border BorderBrush="Gray"
                 BorderThickness="1"
                 CornerRadius="5">

@@ -3,10 +3,6 @@
         xmlns:vm="using:Sandbox.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:me="clr-namespace:Sandbox.MarkupExtensions"
-        xmlns:models="clr-namespace:Sandbox.Models"
-        xmlns:valueConverters="clr-namespace:Sandbox.ValueConverters"
-        xmlns:behaviors="clr-namespace:Sandbox.Behaviors"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Sandbox.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -14,93 +10,6 @@
         Title="Sandbox">
 
     <StackPanel Orientation="Vertical" Spacing="5">
-        <DataGrid Name="SyncSourceDataGrid"
-                  ItemsSource="{Binding SyncScrollDataGridItemsSource}"
-                  Height="200"
-                  Width="200"
-                  FrozenColumnCount="1"
-                  HorizontalAlignment="Left">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid ItemsSource="{Binding SyncScrollDataGridItemsSource}"
-                  Height="200"
-                  Width="200"
-                  HorizontalAlignment="Left">
-            <Interaction.Behaviors>
-                <behaviors:DataGridSyncScrollBehavior SyncedDataGrid="SyncSourceDataGrid" />
-            </Interaction.Behaviors>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <Border BorderBrush="Gray"
-                BorderThickness="1"
-                CornerRadius="5">
-           <StackPanel Orientation="Vertical" Spacing="5">
-               <RadioButton Margin="5,0,0,0"
-                            Content="男"
-                            IsChecked="{Binding IndividualGender,
-                                Converter={valueConverters:EnumRadioButtonIsCheckedConverter {x:Static models:Gender.Male}}}"
-                            IsThreeState="False"
-                            GroupName="PaymentMethodRadioButtonGroup" />
-               <RadioButton Margin="5,0,0,0"
-                            Content="女"
-                            IsChecked="{Binding IndividualGender,
-                                Converter={valueConverters:EnumRadioButtonIsCheckedConverter {x:Static models:Gender.Female}}}"
-                            IsThreeState="False"
-                            GroupName="PaymentMethodRadioButtonGroup" />
-               <RadioButton Margin="5,0,0,0"
-                            Content="其他"
-                            IsChecked="{Binding IndividualGender,
-                                Converter={valueConverters:EnumRadioButtonIsCheckedConverter {x:Static models:Gender.Other}}}"
-                            IsThreeState="False"
-                            GroupName="PaymentMethodRadioButtonGroup" />
-               <TextBlock Text="{Binding IndividualGender, StringFormat={}ViewModel 选择项：{0}}" />
-               <Button Command="{Binding SetValueIndividuallyCommand}"
-                       CommandParameter="{x:Static models:Gender.Male}"
-                       Content="设置 Male" />
-               <Button Command="{Binding SetValueIndividuallyCommand}"
-                       CommandParameter="{x:Static models:Gender.Female}"
-                       Content="设置 Female" />
-               <Button Command="{Binding SetValueIndividuallyCommand}"
-                       CommandParameter="{x:Static models:Gender.Other}"
-                       Content="设置 Other" />
-           </StackPanel>
-        </Border>
-
-        <Border BorderBrush="Gray"
-                BorderThickness="1"
-                CornerRadius="5">
-            <StackPanel Orientation="Vertical" Spacing="5">
-                <ItemsControl ItemsSource="{me:EnumValues {x:Type models:Gender}}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="models:Gender">
-                            <RadioButton Margin="5,0,0,0"
-                                         Content="{Binding .,Converter={x:Static valueConverters:EnumConverters.Genders}}"
-                                         IsChecked="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).UnifiedGender,
-                                             Converter={valueConverters:EnumRadioButtonIsCheckedConverter {Binding .}}}"
-                                         IsThreeState="False"
-                                         GroupName="PaymentMethodRadioButtonGroup" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <TextBlock Text="{Binding UnifiedGender, StringFormat={}ViewModel 选择项：{0}}" />
-                <Button Command="{Binding SetValueUnifiedCommand}"
-                        CommandParameter="{x:Static models:Gender.Male}"
-                        Content="设置 Male" />
-                <Button Command="{Binding SetValueUnifiedCommand}"
-                        CommandParameter="{x:Static models:Gender.Female}"
-                        Content="设置 Female" />
-                <Button Command="{Binding SetValueUnifiedCommand}"
-                        CommandParameter="{x:Static models:Gender.Other}"
-                        Content="设置 Other" />
-            </StackPanel>
-        </Border>
     </StackPanel>
 
 </Window>

@@ -1,0 +1,20 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:viewModels="clr-namespace:AvaloniaPrism.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaPrism.Views.CommandsView"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             x:DataType="viewModels:CommandsViewModel">
+    <StackPanel>
+        <TextBlock Text="{Binding CurrentNumber, StringFormat='Current: {0}'}" />
+        <ToggleSwitch Content="Can Increment" IsChecked="{Binding UserSetCanIncrement}" />
+        <Button Content="Increment" Command="{Binding IncrementCommand}" />
+        <ToggleSwitch Content="Can Decrement" IsChecked="{Binding UserSetCanDecrement}" />
+        <Button Content="Increment" Command="{Binding DecrementCommand}" />
+        <Button Content="Composite Command" Command="{Binding CompositeCommand}" />
+        <TextBlock Text="{Binding Log}" />
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,34 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaloniaPrism.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mvvm="http://prismlibrary.com/"
+        xmlns:constants="clr-namespace:AvaloniaPrism.Core.Constants;assembly=AvaloniaPrism.Core"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvaloniaPrism.Views.MainWindow"
+        mvvm:ViewModelLocator.AutoWireViewModel="True"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="AvaloniaPrism">
+
+    <DockPanel>
+        <Border VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                DockPanel.Dock="Bottom">
+            <StackPanel Orientation="Horizontal"
+                        Spacing="4"
+                        HorizontalAlignment="Left">
+                <Button Content="Services" Command="{Binding ServicesCommand}" />
+                <Button Content="Commands" Command="{Binding CommandsCommand}" />
+                <Button Content="Events" Command="{Binding EventsCommand}" />
+                <Button Content="Dialogs" Command="{Binding DialogsCommand}" />
+                <Button Content="Navigations" Command="{Binding NavigationsCommand}" />
+                <Button Content="ModuleA" Command="{Binding ModuleACommand}" />
+                <Button Content="ModuleB" Command="{Binding ModuleBCommand}" />
+            </StackPanel>
+        </Border>
+        <TransitioningContentControl mvvm:RegionManager.RegionName="{x:Static constants:RegionNames.ContentRegion}" />
+    </DockPanel>
+
+</Window>

@@ -1,0 +1,16 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:AvaloniaPrism.ViewModels"
+             xmlns:mvvm="http://prismlibrary.com/"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaPrism.Views.DialogsView"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             x:DataType="viewModels:DialogsViewModel">
+    <StackPanel>
+        <TextBox Text="{Binding DialogContent}" Width="300" HorizontalAlignment="Left" />
+        <Button Content="Show Dialog" Command="{Binding ShowDialogCommand}" />
+        <Button Content="Show Notification" Command="{Binding ShowNotificationCommand}" />
+    </StackPanel>
+</UserControl>

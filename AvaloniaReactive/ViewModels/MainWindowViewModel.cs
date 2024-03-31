@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Avalonia.Threading;
 using AvaloniaReactive.Models;
 using DynamicData;
 using DynamicData.Binding;

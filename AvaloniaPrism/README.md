@@ -1,6 +1,6 @@
 # Avalonia 中的 Prism
 
-> 源码 https://github.com/gehongyan/AvaloniaPrism
+> 源码 https://github.com/gehongyan/AvaloniaTutorials/tree/main/AvaloniaPrism
 
 ## 添加对 Prism 的引用
 

@@ -16,7 +16,7 @@ public class CommandsViewModel : BindableBase, IActiveAware, IDisposable
     public CommandsViewModel()
     {
         IncrementCommand = new DelegateCommand(Increment, CanIncrement);
-        DecrementCommand = new DelegateCommand(Decrement, CanDecrement).ObservesCanExecute(() => UserSetCanDecrement);
+        DecrementCommand = new DelegateCommand(Decrement).ObservesCanExecute(() => UserSetCanDecrement);
         CompositeCommand = new CompositeCommand();
         CompositeCommand.RegisterCommand(IncrementCommand);
         CompositeCommand.RegisterCommand(DecrementCommand);

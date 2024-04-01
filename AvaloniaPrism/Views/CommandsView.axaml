@@ -13,7 +13,7 @@
         <ToggleSwitch Content="Can Increment" IsChecked="{Binding UserSetCanIncrement}" />
         <Button Content="Increment" Command="{Binding IncrementCommand}" />
         <ToggleSwitch Content="Can Decrement" IsChecked="{Binding UserSetCanDecrement}" />
-        <Button Content="Increment" Command="{Binding DecrementCommand}" />
+        <Button Content="Decrement" Command="{Binding DecrementCommand}" />
         <Button Content="Composite Command" Command="{Binding CompositeCommand}" />
         <TextBlock Text="{Binding Log}" />
     </StackPanel>

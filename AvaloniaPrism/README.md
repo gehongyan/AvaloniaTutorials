@@ -199,7 +199,7 @@ public class MainViewModel : BindableBase
 
     public MainViewModel()
     {
-        SayHelloCommand = new DelegateCommand(SayHello, CanSayHello); <-- 修改此行
+        SayHelloCommand = new DelegateCommand(SayHello, CanSayHello); // <-- 修改此行
     }
 
     public string Title
@@ -215,14 +215,14 @@ public class MainViewModel : BindableBase
         Title = "Hello Avalonia!";
     }
 
-    private bool CanSayHello() <-- 添加此方法
+    private bool CanSayHello() // <-- 添加此方法
     {
         return !string.IsNullOrEmpty(Title);
     }
 }
 ```
 
-如果 `CanExecute` 是依赖某型可变值，可以通过 `RaiseCanExecuteChanged` 方法来通知命令重新计算是否可用。
+如果 `CanExecute` 依赖其它可变值，可以通过 `RaiseCanExecuteChanged` 方法来主动通知命令重新计算是否可用。
 
 ```csharp
 public class MainViewModel : BindableBase
@@ -240,7 +240,7 @@ public class MainViewModel : BindableBase
         set
         {
             SetProperty(ref _title, value);
-            SayHelloCommand.RaiseCanExecuteChanged(); <-- 添加此行
+            SayHelloCommand.RaiseCanExecuteChanged(); // <-- 添加此行
         }
     }
 
@@ -262,18 +262,18 @@ public class MainViewModel : BindableBase
 ```csharp
 public class MainViewModel : BindableBase
 {
-    private string _title = "Hello World";
+    private bool _canSayHello = true;
 
     public MainViewModel()
     {
         SayHelloCommand = new DelegateCommand(SayHello)
-            .ObservesCanExecute(() => Title); <-- 修改此行
+            .ObservesCanExecute(() => CanSayHello); // <-- 修改此行
     }
 
-    public string Title
+    public bool CanSayHello // 添加此属性
     {
-        get => _title;
-        set => SetProperty(ref _title, value);
+        get => _canSayHello;
+        set => SetProperty(ref _canSayHello, value);
     }
 
     public DelegateCommand SayHelloCommand { get; }

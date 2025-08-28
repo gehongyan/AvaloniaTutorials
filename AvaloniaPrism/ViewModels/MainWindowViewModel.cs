@@ -2,9 +2,10 @@
 using System.Windows.Input;
 using AvaloniaPrism.Core.Constants;
 using Prism.Commands;
+using Prism.Dialogs;
 using Prism.Modularity;
-using Prism.Regions;
-using Prism.Services.Dialogs;
+using Prism.Navigation;
+using Prism.Navigation.Regions;
 
 namespace AvaloniaPrism.ViewModels;
 

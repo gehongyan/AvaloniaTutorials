@@ -2,8 +2,8 @@
 using AvaloniaPrism.Services;
 using AvaloniaPrism.Views;
 using Prism.Commands;
+using Prism.Dialogs;
 using Prism.Mvvm;
-using Prism.Services.Dialogs;
 
 namespace AvaloniaPrism.ViewModels;
 

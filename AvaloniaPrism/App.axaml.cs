@@ -11,7 +11,7 @@ using AvaloniaPrism.Views;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace AvaloniaPrism;
 

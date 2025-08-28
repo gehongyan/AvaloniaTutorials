@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
 using Prism.Commands;
+using Prism.Dialogs;
 using Prism.Mvvm;
-using Prism.Services.Dialogs;
 
 namespace AvaloniaPrism.ViewModels;
 
@@ -12,6 +12,7 @@ public class MessageBoxViewModel : BindableBase, IDialogAware
     private string _content = string.Empty;
     private ICommand _cancelCommand;
     private ICommand _confirmCommand;
+    private DialogCloseListener _requestClose;
 
     public MessageBoxViewModel()
     {
@@ -41,11 +42,11 @@ public class MessageBoxViewModel : BindableBase, IDialogAware
     }
 
     /// <inheritdoc />
-    public event Action<IDialogResult>? RequestClose;
+    public DialogCloseListener RequestClose { get; }
 
     public virtual void RaiseRequestClose(IDialogResult dialogResult)
     {
-        RequestClose?.Invoke(dialogResult);
+        RequestClose.Invoke(dialogResult);
     }
 
     public string Content

@@ -10,6 +10,26 @@
         Title="Sandbox">
 
     <StackPanel Orientation="Vertical" Spacing="5">
+      <Rectangle Height="300" Fill="Red">
+        <Rectangle.Styles>
+          <Style Selector="Rectangle:not(:pointerover)">
+            <Setter Property="Transitions">
+              <Transitions>
+                <DoubleTransition Property="Width" Duration="0:0:0.3"/>
+              </Transitions>
+            </Setter>
+            <Setter Property="Width" Value="200"/>
+          </Style>
+          <Style Selector="Rectangle:pointerover">
+            <Setter Property="Transitions">
+              <Transitions>
+                <DoubleTransition Property="Width" Duration="0:0:1"/>
+              </Transitions>
+            </Setter>
+            <Setter Property="Width" Value="400"/>
+          </Style>
+        </Rectangle.Styles>
+      </Rectangle>
     </StackPanel>
 
 </Window>

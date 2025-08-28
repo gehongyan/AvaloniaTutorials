@@ -1,0 +1,42 @@
+<Window
+  xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:markupExtensions="clr-namespace:FluentIconOverview.MarkupExtensions"
+  xmlns:common="clr-namespace:FluentIcons.Common;assembly=FluentIcons.Common"
+  xmlns:avalonia="clr-namespace:FluentIcons.Avalonia;assembly=FluentIcons.Avalonia"
+  mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+  x:Class="FluentIconOverview.MainWindow"
+  Title="FluentIconOverview">
+  <ScrollViewer
+    HorizontalScrollBarVisibility="Disabled"
+    VerticalScrollBarVisibility="Auto"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch">
+    <ItemsControl>
+      <ItemsControl.ItemsSource>
+        <markupExtensions:EnumValues x:TypeArguments="common:Icon" />
+      </ItemsControl.ItemsSource>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Orientation="Horizontal" />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="common:Icon">
+          <DockPanel
+            Margin="2">
+            <avalonia:FluentIcon
+              DockPanel.Dock="Top"
+              Icon="{Binding}"
+              IconVariant="Regular"
+              FontSize="80"
+              HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding}" />
+          </DockPanel>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </ScrollViewer>
+</Window>

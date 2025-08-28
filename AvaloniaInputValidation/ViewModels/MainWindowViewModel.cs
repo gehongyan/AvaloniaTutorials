@@ -25,32 +25,29 @@ public class MainWindowViewModel : ViewModelBase, INotifyDataErrorInfo
 
     #region Setter Exceptions
 
-    private string? _setterName;
-    private int? _setterAge;
-
     public string? SetterName
     {
-        get => _setterName;
+        get;
         set
         {
             if (value is null)
                 throw new ArgumentNullException(nameof(SetterName), "姓名不能为空。");
             if (value is not { Length: >= 6 and <= 10 })
                 throw new ArgumentException("姓名长度必须大于等于 6 小于等于 10。", nameof(SetterName));
-            this.RaiseAndSetIfChanged(ref _setterName, value);
+            this.RaiseAndSetIfChanged(ref field, value);
         }
     }
 
     public int? SetterAge
     {
-        get => _setterAge;
+        get;
         set
         {
             if (value is null)
                 throw new ArgumentNullException(nameof(SetterAge), "年龄不能为空。");
             if (value is not (> 0 and < 150))
                 throw new ArgumentOutOfRangeException(nameof(SetterAge), "年龄必须大于 0 小于 150。");
-            this.RaiseAndSetIfChanged(ref _setterAge, value);
+            this.RaiseAndSetIfChanged(ref field, value);
         }
     }
 
@@ -58,32 +55,29 @@ public class MainWindowViewModel : ViewModelBase, INotifyDataErrorInfo
 
     #region Throws DataValidationException
 
-    private string? _dataValidationExceptionName;
-    private int? _dataValidationExceptionAge;
-
     public string? DataValidationExceptionName
     {
-        get => _dataValidationExceptionName;
+        get;
         set
         {
             if (value is null)
                 throw new DataValidationException("姓名不能为空。");
             if (value is not { Length: >= 6 and <= 10 })
                 throw new DataValidationException("姓名长度必须大于等于 6 小于等于 10。");
-            this.RaiseAndSetIfChanged(ref _dataValidationExceptionName, value);
+            this.RaiseAndSetIfChanged(ref field, value);
         }
     }
 
     public int? DataValidationExceptionAge
     {
-        get => _dataValidationExceptionAge;
+        get;
         set
         {
             if (value is null)
                 throw new DataValidationException("年龄不能为空。");
             if (value is not (> 0 and < 150))
                 throw new DataValidationException("年龄必须大于 0 小于 150。");
-            this.RaiseAndSetIfChanged(ref _dataValidationExceptionAge, value);
+            this.RaiseAndSetIfChanged(ref field, value);
         }
     }
 

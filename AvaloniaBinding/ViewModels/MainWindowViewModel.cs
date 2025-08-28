@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
@@ -12,6 +13,9 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Metadata;
+using Avalonia.Platform;
+using Avalonia.Rendering;
+using Avalonia.Vulkan;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -19,6 +23,12 @@ namespace AvaloniaBinding.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
+    public MainWindowViewModel()
+    {
+        TryGetActiveWin32CompositionMode(out Win32CompositionMode? mode);
+        TryGetActiveWin32RenderingMode(out Win32ActiveRenderingMode? renderingMode);
+    }
+
     #region Conventional
 
     /// <summary>
@@ -73,7 +83,7 @@ public class MainWindowViewModel : ViewModelBase
     ///     <c>^</c>，编译器即可在接收到该 <see cref="Task{T}"/> 属性变更后等待其完成并获取其结果。
     /// </remarks>
     [Reactive]
-    public Task<string> BindingToTask { get; set; }
+    public Task<string> BindingToTask { get; set; } = Task.FromResult(string.Empty);
 
     /// <summary>
     ///     获取用于重新设置 <see cref="BindingToTask"/> 属性的命令。
@@ -286,6 +296,67 @@ public class MainWindowViewModel : ViewModelBase
     public IEnumerable<IndexedItem> StringFormatItemsSource => AssignBindingItemsSource;
 
     #endregion
+
+private static IAvaloniaDependencyResolver? AvaloniaLocator { get; } =
+    typeof(AvaloniaLocator).GetProperty("Current")?.GetValue(null) as IAvaloniaDependencyResolver;
+
+private static T? GetAvaloniaLocatorService<T>()
+    where T : class
+{
+    if (AvaloniaLocator is not { } locator) return null;
+    if (typeof(IAvaloniaDependencyResolver).GetMethod("GetService") is not { } method)
+        return null;
+    object? result = method.Invoke(locator, [typeof(T)]);
+    return result as T;
+}
+
+public static bool TryGetActiveWin32CompositionMode([NotNullWhen(true)] out Win32CompositionMode? win32CompositionMode)
+{
+    if (!TryGetActiveWin32RenderingMode(out Win32ActiveRenderingMode? renderingMode)
+        || renderingMode is not Win32ActiveRenderingMode.AngleEglD3D11)
+    {
+        win32CompositionMode = Win32CompositionMode.RedirectionSurface;
+        return true;
+    }
+    IRenderTimer? renderTimer = GetAvaloniaLocatorService<IRenderTimer>();
+    string? renderTimerClassName = renderTimer?.GetType().Name;
+    win32CompositionMode = renderTimerClassName switch
+    {
+        "WinUiCompositorConnection" => Win32CompositionMode.WinUIComposition,
+        "DirectCompositionConnection" => Win32CompositionMode.DirectComposition,
+        "DxgiConnection" => Win32CompositionMode.LowLatencyDxgiSwapChain,
+        _ => Win32CompositionMode.RedirectionSurface
+    };
+    return win32CompositionMode != null;
+}
+
+public static bool TryGetActiveWin32RenderingMode([NotNullWhen(true)] out Win32ActiveRenderingMode? win32RenderingMode)
+{
+    IPlatformGraphics? platformGraphics = GetAvaloniaLocatorService<IPlatformGraphics>();
+    string? platformGraphicsClassName = platformGraphics?.GetType().Name;
+    win32RenderingMode = platformGraphicsClassName switch
+    {
+        null when GetAvaloniaLocatorService<Win32PlatformOptions>()?.CustomPlatformGraphics is not null => Win32ActiveRenderingMode.Custom,
+        null => Win32ActiveRenderingMode.Software,
+        "D3D9AngleWin32PlatformGraphics" => Win32ActiveRenderingMode.AngleEglD3D9,
+        "D3D11AngleWin32PlatformGraphics" => Win32ActiveRenderingMode.AngleEglD3D11,
+        "WglPlatformOpenGlInterface" => Win32ActiveRenderingMode.Wgl,
+        nameof(VulkanPlatformGraphics) => Win32ActiveRenderingMode.Vulkan,
+        _ => null
+    };
+
+    return win32RenderingMode != null;
+}
+
+public enum Win32ActiveRenderingMode
+{
+    Custom,
+    Software,
+    AngleEglD3D9,
+    AngleEglD3D11,
+    Wgl,
+    Vulkan
+}
 }
 
 /// <summary>

@@ -1,6 +1,6 @@
 using System.Collections.Specialized;
 using Avalonia.Controls;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace AvaloniaPrism.RegionAdapters;
 

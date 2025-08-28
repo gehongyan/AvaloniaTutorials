@@ -1,4 +1,6 @@
 using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using AvaloniaBinding.Controls;
 
 namespace AvaloniaBinding.Views;
@@ -9,6 +11,20 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         BindingFromCode();
+    }
+
+    /// <inheritdoc />
+    protected override void OnPointerEntered(PointerEventArgs e)
+    {
+        base.OnPointerEntered(e);
+        Opacity = 1;
+    }
+
+    /// <inheritdoc />
+    protected override void OnPointerExited(PointerEventArgs e)
+    {
+        base.OnPointerExited(e);
+        Opacity = 0.5;
     }
 
     /// <summary>
@@ -54,5 +70,13 @@ public partial class MainWindow : Window
         // 参见：https://github.com/AvaloniaUI/Avalonia/blob/9eeb3ee3400e9717b92b1e740b50f9de0c222b12/src/Avalonia.Base/Data/IndexerDescriptor.cs#L63-L81
         // !!OneWayTextBox.OneWayTextProperty 等效于 ~!OneWayTextBox.OneWayTextProperty
         // !~OneWayTextBox.OneWayTextProperty 等效于 ~~OneWayTextBox.OneWayTextProperty
+    }
+
+    static MainWindow()
+    {
+        Window.PointerExitedEvent.AddClassHandler<Window>((toolTip, args) =>
+        {
+            args.Handled = true;
+        }, RoutingStrategies.Tunnel);
     }
 }
